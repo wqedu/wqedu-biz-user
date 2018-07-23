@@ -40,4 +40,28 @@ class UserProductDaoImpl extends GeneralDaoImpl implements UserProductDao
             'wave_cahceable_fields' => array(),
         );
     }
+
+    public function getUserProductByProductTypeAndProductId($userId, $productType, $productId)
+    {
+        $fields['userId'] = $userId;
+        $fields['productType'] = $productType;
+        $fields['productId'] = $productId;
+
+        return $this->getByFields($fields);
+    }
+
+    public function findUserProducts($userId)
+    {
+        $fields['userId'] = $userId;
+
+        return $this->findByFields($fields);
+    }
+
+    public function findUserProductsByProductType($userId, $productType)
+    {
+        $fields['userId'] = $userId;
+        $fields['productType'] = $productType;
+
+        return $this->findByFields($fields);
+    }
 }

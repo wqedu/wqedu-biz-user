@@ -10,100 +10,67 @@ namespace Tests;
 
 class UserProductServiceTest extends IntegrationTestCase
 {
-    public function testCreateLibrary()
+    public function testCreateUserProduct()
     {
-        $mockLibrary = $this->mockLibrary();
-        $createLibrary = $this->getQuestionLibraryService()->createLibrary($mockLibrary);
-        print_r($createLibrary);
+        $mockUserProduct = $this->mockUserProduct();
+        $createUserProduct = $this->getUserProductService()->createUserProduct($mockUserProduct['userId'], $mockUserProduct['productType'], $mockUserProduct['productId'], $mockUserProduct['role']);
+        print_r($createUserProduct);
 
-        $this->assertEquals($mockLibrary['name'], $createLibrary['name']);
-        $this->assertEquals($mockLibrary['description'], $createLibrary['description']);
-        $this->assertEquals($mockLibrary['questionNum'], $createLibrary['questionNum']);
-        $this->assertEquals($mockLibrary['testpaperNum'], $createLibrary['testpaperNum']);
-        $this->assertEquals($mockLibrary['source'], $createLibrary['source']);
-        $this->assertEquals($mockLibrary['clientId'], $createLibrary['clientId']);
-        $this->assertEquals($mockLibrary['status'], $createLibrary['status']);
+        $this->assertEquals($mockUserProduct['userId'], $createUserProduct['userId']);
+        $this->assertEquals($mockUserProduct['productId'], $createUserProduct['productId']);
+        $this->assertEquals($mockUserProduct['productType'], $createUserProduct['productType']);
+        $this->assertEquals($mockUserProduct['role'], $createUserProduct['role']);
 
-        fwrite(STDOUT, __METHOD__ . "\n =======createLibrary======= \n");
+        fwrite(STDOUT, __METHOD__ . "\n =======testCreateUserProduct======= \n");
     }
 
-    public function testGetLibrary()
+    public function testGetUserProduct()
     {
-        $mockLibrary = $this->mockLibrary();
-        $createLibrary = $this->getQuestionLibraryService()->createLibrary($mockLibrary);
+        $mockUserProduct = $this->mockUserProduct();
+        $createUserProduct = $this->getUserProductService()->createUserProduct($mockUserProduct['userId'], $mockUserProduct['productType'], $mockUserProduct['productId'], $mockUserProduct['role']);
+        print_r($createUserProduct);
 
-        $getLibrary = $this->getQuestionLibraryService()->getLibrary($createLibrary['id']);
-        print_r($getLibrary);
+        $getUserProduct = $this->getUserProductService()->getUserProductByProductTypeAndProductId($mockUserProduct['userId'], $mockUserProduct['productType'], $mockUserProduct['productId']);
+        print_r($getUserProduct);
 
-        $this->assertEquals($mockLibrary['name'], $getLibrary['name']);
-        $this->assertEquals($mockLibrary['description'], $getLibrary['description']);
-        $this->assertEquals($mockLibrary['questionNum'], $getLibrary['questionNum']);
-        $this->assertEquals($mockLibrary['testpaperNum'], $getLibrary['testpaperNum']);
-        $this->assertEquals($mockLibrary['source'], $getLibrary['source']);
-        $this->assertEquals($mockLibrary['clientId'], $getLibrary['clientId']);
-        $this->assertEquals($mockLibrary['status'], $getLibrary['status']);
+        $this->assertEquals($mockUserProduct['userId'], $getUserProduct['userId']);
+        $this->assertEquals($mockUserProduct['productId'], $getUserProduct['productId']);
+        $this->assertEquals($mockUserProduct['productType'], $getUserProduct['productType']);
+        $this->assertEquals($mockUserProduct['role'], $getUserProduct['role']);
 
-        fwrite(STDOUT, __METHOD__ . "\n =======getLibrary======= \n");
+        fwrite(STDOUT, __METHOD__ . "\n =======testGetUserProduct======= \n");
     }
 
-    public function testUpdateLibrary()
+    public function testFindUserProducts()
     {
-        $mockLibrary = $this->mockLibrary();
-        $mockUpdateLibrary = $this->mockUpdateLibrary();
+        $mockUserProduct = $this->mockUserProduct();
+        $createUserProduct = $this->getUserProductService()->createUserProduct($mockUserProduct['userId'], $mockUserProduct['productType'], $mockUserProduct['productId'], $mockUserProduct['role']);
 
-        $createLibrary = $this->getQuestionLibraryService()->createLibrary($mockLibrary);
+        $mockUserProduct2 = $this->mockUserProduct2();
+        $createUserProduct2 = $this->getUserProductService()->createUserProduct($mockUserProduct2['userId'], $mockUserProduct2['productType'], $mockUserProduct2['productId'], $mockUserProduct2['role']);
 
-        $getLibrary = $this->getQuestionLibraryService()->getLibrary($createLibrary['id']);
+        $findUserProducts = $this->getUserProductService()->findUserProducts($mockUserProduct['userId']);
 
-        $updateLibrary = $this->getQuestionLibraryService()->updateLibrary($createLibrary['id'], $mockUpdateLibrary);
-        print_r($updateLibrary);
-
-        $this->assertEquals($mockLibrary['name'], $getLibrary['name']);
-        $this->assertEquals($mockLibrary['description'], $getLibrary['description']);
-        $this->assertEquals($mockLibrary['questionNum'], $getLibrary['questionNum']);
-        $this->assertEquals($mockLibrary['testpaperNum'], $getLibrary['testpaperNum']);
-        $this->assertEquals($mockLibrary['source'], $getLibrary['source']);
-        $this->assertEquals($mockLibrary['clientId'], $getLibrary['clientId']);
-        $this->assertEquals($mockLibrary['status'], $getLibrary['status']);
-
-        fwrite(STDOUT, __METHOD__ . "\n =======updateLibrary======= \n");
+        print_r($findUserProducts);
+        $this->assertEquals(2, count($findUserProducts));
+        fwrite(STDOUT, __METHOD__ . "\n =======testFindUserProducts======= \n");
     }
 
-    public function testDeleteLibrary()
+    public function testUpdateProduct()
     {
-        $mockLibrary = $this->mockLibrary();
-        $createLibrary = $this->getQuestionLibraryService()->createLibrary($mockLibrary);
+        $mockUserProduct = $this->mockUserProduct();
+        $createUserProduct = $this->getUserProductService()->createUserProduct($mockUserProduct['userId'], $mockUserProduct['productType'], $mockUserProduct['productId'], $mockUserProduct['role']);
 
-        $deleteLibrary = $this->getQuestionLibraryService()->deleteLibrary($createLibrary['id']);
-        print_r($deleteLibrary);
+        $mockUpdateUserProduct = $this->mockUpdateUserProduct();
 
-        $this->assertEquals('closed', $deleteLibrary['status']);
+        $updateUserProduct = $this->getUserProductService()->updateUserProductRole($mockUpdateUserProduct['userId'], $mockUpdateUserProduct['productType'], $mockUpdateUserProduct['productId'], $mockUpdateUserProduct['role']);
+        print_r($updateUserProduct);
 
-        fwrite(STDOUT, __METHOD__ . "\n =======deleteLibrary======= \n");
+        $this->assertEquals($updateUserProduct['role'], $mockUpdateUserProduct['role']);
+        fwrite(STDOUT, __METHOD__ . "\n =======testFindUserProducts======= \n");
     }
 
-    public function testSearchLibraryCount()
-    {
-        $mockLibrary = $this->mockLibrary();
-        $mockUpdateLibrary = $this->mockUpdateLibrary();
-
-        $createLibrary = $this->getQuestionLibraryService()->createLibrary($mockLibrary);
-        $updateLibrary = $this->getQuestionLibraryService()->createLibrary($mockUpdateLibrary);
-
-        $conditions['nameLike'] = '题库';
-
-        $count = $this->getQuestionLibraryService()->searchLibraryCount($conditions);
-
-        $librarys = $this->getQuestionLibraryService()->searchLibrarys($conditions,false,0,10);
-
-        print_r($librarys);
-
-        $this->assertEquals(2, $count);
-
-        fwrite(STDOUT, __METHOD__ . "\n =======searchLibraryCount======= \n");
-    }
-
-    protected function mockLibrary()
+    protected function mockUserProduct()
     {
         return array(
             'userId'            =>  1,
@@ -113,19 +80,29 @@ class UserProductServiceTest extends IntegrationTestCase
         );
     }
 
-    protected function mockUpdateLibrary()
+    protected function mockUserProduct2()
+    {
+        return array(
+            'userId'            =>  1,
+            'productId'         =>  12,
+            'productType'       =>  'quiz',
+            'role'              =>  'teacher',
+        );
+    }
+
+    protected function mockUpdateUserProduct()
     {
         return array(
             'userId'            =>  1,
             'productId'         =>  10,
             'productType'       =>  'course',
-            'role'              =>  'student',
+            'role'              =>  'teacher',
         );
     }
 
 
-    protected function getQuestionLibraryService()
+    protected function getUserProductService()
     {
-        return $this->biz->service('Quiz:QuestionLibraryService');
+        return $this->biz->service('User:UserProductService');
     }
 }

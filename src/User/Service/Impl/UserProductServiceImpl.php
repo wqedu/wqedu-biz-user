@@ -110,11 +110,7 @@ class UserProductServiceImpl extends BaseService implements UserProductService
         if( empty($userId) || empty($productType) || empty($productId) )
             throw new \Exception('Missing Necessary Fields', 20101);
 
-        $fields['userId'] = $userId;
-        $fields['productType'] = $productType;
-        $fields['productId'] = $productId;
-
-        return $this->getUserProductDao()->getByFields($fields);
+        return $this->getUserProductDao()->getUserProductByProductTypeAndProductId($userId, $productType, $productId);
     }
 
     public function findUserProducts($userId)
@@ -122,9 +118,7 @@ class UserProductServiceImpl extends BaseService implements UserProductService
         if( empty($userId) )
             throw new \Exception('Missing Necessary Fields', 20101);
 
-        $fields['userId'] = $userId;
-
-        return $this->getUserProductDao()->findByFields($fields);
+        return $this->getUserProductDao()->findUserProducts($userId);
     }
 
     public function findUserProductsByProductType($userId, $productType)
@@ -132,10 +126,7 @@ class UserProductServiceImpl extends BaseService implements UserProductService
         if( empty($userId) || empty($productType) )
             throw new \Exception('Missing Necessary Fields', 20101);
 
-        $fields['userId'] = $userId;
-        $fields['productType'] = $productType;
-
-        return $this->getUserProductDao()->findByFields($fields);
+        return $this->getUserProductDao()->findUserProductsByProductType($userId, $productType);
     }
 
     public function updateUserProductRole($userId, $productType, $productId, $role)
@@ -148,7 +139,7 @@ class UserProductServiceImpl extends BaseService implements UserProductService
         if(empty($product))
             throw new \Exception('User Product Not Found', 20104);
 
-        return $this->update($product['id'], array('role'=>$role));
+        return $this->updateProduct($product['id'], array('role'=>$role));
     }
 
     /*
@@ -214,6 +205,6 @@ class UserProductServiceImpl extends BaseService implements UserProductService
      */
     protected function getUserProductDao()
     {
-        return $this->biz->dao('Quiz:UserProductDao');
+        return $this->biz->dao('User:UserProductDao');
     }
 }

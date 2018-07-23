@@ -11,4 +11,9 @@ use Codeages\Biz\Framework\Dao\GeneralDaoInterface;
 
 interface UserProductDao extends GeneralDaoInterface
 {
+    public function getUserProductByProductTypeAndProductId($userId, $productType, $productId);
+
+    public function findUserProducts($userId);
+
+    public function findUserProductsByProductType($userId, $productType);
 }

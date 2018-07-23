@@ -11,6 +11,10 @@ use Codeages\Biz\Framework\Service\Exception\AccessDeniedException;
 
 interface UserProductService
 {
+    /*
+     * public product api,
+     * todo, change to private
+     */
     public function getProduct($id);
 
     public function createProduct($fields);
