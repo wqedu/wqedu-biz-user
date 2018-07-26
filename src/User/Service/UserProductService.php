@@ -40,4 +40,6 @@ interface UserProductService
 
     public function findUserProducts($userId);
 
+    public function deleteUserProduct($userId, $productType, $productId);
+
 }

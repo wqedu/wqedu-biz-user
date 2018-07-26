@@ -142,6 +142,19 @@ class UserProductServiceImpl extends BaseService implements UserProductService
         return $this->updateProduct($product['id'], array('role'=>$role));
     }
 
+    public function deleteUserProduct($userId, $productType, $productId)
+    {
+        if( empty($userId) || empty($productType) || empty($productId) )
+            throw new \Exception('Missing Necessary Fields', 20101);
+
+        $product = $this->getUserProductByProductTypeAndProductId($userId, $productType, $productId);
+
+        if(empty($product))
+            throw new \Exception('User Product Not Found', 20104);
+
+        return $this->deleteProduct($product['id']);
+    }
+
     /*
      * product filter
      */
