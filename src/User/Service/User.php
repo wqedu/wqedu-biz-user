@@ -12,6 +12,7 @@ interface UserService
    public function getUser($id, $lock = false);
 
    public function getUserAndProfile($id);
+
    public function initSystemUsers();
 
    public function getSimpleUser($id);
